@@ -1,4 +1,4 @@
-package dev.leonardom.firebasecrud.ui.theme
+package dev.leonardom.firebasecrud.presentation.ui.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle

@@ -1,6 +1,5 @@
-package dev.leonardom.firebasecrud.presentation.book_list.components
+package dev.leonardom.firebasecrud.presentation.screens.book_list.components
 
-import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -18,12 +17,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberImagePainter
-import dev.leonardom.firebasecrud.ui.theme.Red100
-import dev.leonardom.firebasecrud.ui.theme.Yellow600
+import dev.leonardom.firebasecrud.data.model.Book
+import dev.leonardom.firebasecrud.presentation.ui.theme.Red100
+import dev.leonardom.firebasecrud.presentation.ui.theme.Yellow600
 
 @ExperimentalMaterialApi
 @Composable
-fun BookListItem() {
+fun BookListItem(book: Book,onItemClick:(String)->Unit) {
     Card(
         elevation = 0.dp
     ){
@@ -32,13 +32,13 @@ fun BookListItem() {
                 .fillMaxWidth()
                 .background(Color.White)
                 .clickable {
-                    TODO("ON ITEM CLICK")
+                    onItemClick(book.id)
                 }
         ){
             Image(
-                painter = rememberImagePainter(""),
-                contentDescription = "",
-                modifier = Modifier
+                    painter = rememberImagePainter(book.url),
+                    contentDescription = "",
+                    modifier = Modifier
                     .width(100.dp)
                     .height(160.dp)
                     .padding(8.dp)
@@ -51,18 +51,18 @@ fun BookListItem() {
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 Text(
-                    modifier = Modifier.fillMaxWidth(),
-                    text = "Title",
-                    style = TextStyle(
+                        modifier = Modifier.fillMaxWidth(),
+                        text = book.title,
+                        style = TextStyle(
                         fontWeight = FontWeight.Medium,
                         fontSize = 18.sp
                     )
                 )
 
                 Text(
-                    modifier = Modifier.fillMaxWidth(),
-                    text = "Author",
-                    style = TextStyle(
+                        modifier = Modifier.fillMaxWidth(),
+                        text = book.author,
+                        style = TextStyle(
                         fontWeight = FontWeight.Light,
                         fontSize = 14.sp,
                         color = Color.DarkGray
@@ -82,8 +82,8 @@ fun BookListItem() {
                     )
 
                     Text(
-                        text = "4.5",
-                        style = TextStyle(
+                            text = book.ratin.toString(),
+                            style = TextStyle(
                             color = Color.Black,
                             fontWeight = FontWeight.Black,
                             fontSize = 14.sp
@@ -91,8 +91,8 @@ fun BookListItem() {
                     )
 
                     Text(
-                        text = "0 Descargas",
-                        style = TextStyle(
+                            text = "${book.download} Descargas",
+                            style = TextStyle(
                             color = Color.Black,
                             fontWeight = FontWeight.Light,
                             fontSize = 14.sp

@@ -1,4 +1,4 @@
-package dev.leonardom.firebasecrud.presentation.book_list.components
+package dev.leonardom.firebasecrud.presentation.screens.book_list.components
 
 import android.util.Log
 import androidx.compose.animation.animateColorAsState
@@ -20,12 +20,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
+import dev.leonardom.firebasecrud.domain.book.BookListState
 
 @ExperimentalMaterialApi
 @Composable
 fun BookList(
+    state: BookListState,
     isRefreshing: Boolean,
     refreshData: () -> Unit,
+    onItemClick:(String)->Unit,
+    onDeleteBook: (String)-> Unit
 ) {
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -37,9 +41,7 @@ fun BookList(
             LazyColumn(
                 modifier = Modifier.fillMaxSize()
             ) {
-                items(
-                    items = listOf<String>()
-                ){
+                items(items = state.books){ book->
 
                     var isDeleted by remember { mutableStateOf(false) }
                     val dismissState = rememberDismissState(
@@ -78,10 +80,10 @@ fun BookList(
                             )
 
                             Box(
-                                Modifier
-                                    .fillMaxSize()
-                                    .background(color)
-                                    .padding(horizontal = 20.dp),
+                                    Modifier
+                                        .fillMaxSize()
+                                        .background(color)
+                                        .padding(horizontal = 20.dp),
                                 contentAlignment = alignment
                             ) {
                                 Icon(
@@ -93,13 +95,30 @@ fun BookList(
                         }
                     ) {
                         if(isDeleted) {
-                            // TODO("DELETE BOOK")
+                            onDeleteBook(book.id)
                         } else {
-                            BookListItem()
+                            BookListItem(book, onItemClick = onItemClick)
                         }
                     }
                 }
             }
+        }
+
+        if(state.error.isNotBlank()){
+
+            Text(
+                    text = state.error,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(12.dp)
+                        .align(Alignment.Center),
+                    color = Color.Red
+            )
+
+        }
+
+        if (state.isLoading){
+            CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
         }
     }
 }

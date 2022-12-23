@@ -1,4 +1,4 @@
-package dev.leonardom.firebasecrud.presentation.book_list
+package dev.leonardom.firebasecrud.presentation.screens.book_list
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.ExperimentalMaterialApi
@@ -10,15 +10,19 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import dev.leonardom.firebasecrud.presentation.book_list.components.BookList
-import dev.leonardom.firebasecrud.ui.theme.Red100
+import dev.leonardom.firebasecrud.domain.book.BookListState
+import dev.leonardom.firebasecrud.presentation.screens.book_list.components.BookList
+import dev.leonardom.firebasecrud.presentation.ui.theme.Red100
 
 @ExperimentalMaterialApi
 @Composable
 fun BookListScreen(
+    state: BookListState,
     navigateToBookDetail: () -> Unit,
     isRefreshing: Boolean,
     refreshData: () -> Unit,
+    onItemClick:(String)-> Unit,
+    onDeleteBook: (String)->Unit
 ) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -33,8 +37,11 @@ fun BookListScreen(
         }
     ) {
         BookList(
+            state = state,
             isRefreshing = isRefreshing,
-            refreshData = refreshData
+            refreshData = refreshData,
+            onItemClick = onItemClick,
+            onDeleteBook = onDeleteBook
         )
     }
 }

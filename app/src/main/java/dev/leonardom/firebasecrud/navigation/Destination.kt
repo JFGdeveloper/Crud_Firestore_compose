@@ -9,5 +9,7 @@ sealed class Destination(
     val arguments: List<NamedNavArgument>
 ){
     object BookList : Destination("bookList", emptyList())
-    object BookDetail: Destination("bookDetail", emptyList())
+    object BookDetail: Destination("bookDetail", listOf(
+            navArgument("bookId"){nullable = true}
+    ))
 }
